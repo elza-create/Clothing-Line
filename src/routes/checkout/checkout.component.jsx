@@ -1,7 +1,10 @@
 import { useContext } from "react";
 import { CartContext } from "../../contexts/cart.context";
 import CheckoutItem from "../../components/checkout-item/checkout-item.component";
+import { Elements } from "@stripe/react-stripe-js";
+import PaymentForm from "../../components/payment-form/payment-form.component";
 import "./checkout.styles.scss";
+import { stripePromise } from "../../utils/stripe/stripe.utils";
 
 const Checkout = () => {
   const { cartItems, cartTotal } = useContext(CartContext);
@@ -29,6 +32,9 @@ const Checkout = () => {
         return <CheckoutItem key={cartItem.id} cartItem={cartItem} />;
       })}
       <span className="total">Total is: ${cartTotal} </span>
+      <Elements stripe={stripePromise}>
+        <PaymentForm />
+      </Elements>
     </div>
   );
 };
